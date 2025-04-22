@@ -1,9 +1,14 @@
 public class Main {
     public static void main(String[] args) {
-        Triangle t = new Triangle(new Point(2, 0), new Point(4, 0), new Point(2, 3));
-        Quadrilateral q = new Quadrilateral(new Point(0, 0), new Point(4, 0), new Point(4, 3), new Point(0, 3));
-        Circle c = new Circle(new Point(2, 2), 3);
+        //Triangle t = new Triangle(new Point(0, 0), new Point(4, 0), new Point(2, 3));
+       // Quadrilateral q = new Quadrilateral(new Point(0, 0), new Point(4, 0), new Point(4, 3), new Point(0, 3));
+       // Circle c = new Circle(new Point(2, 2), 3);
 
+        Figure t = new Triangle(new Point(0, 0), new Point(4, 0), new Point(2, 3));
+        Figure q = new Quadrilateral(new Point(0, 0), new Point(4, 0), new Point(4, 3), new Point(0, 3));
+        Figure c = new Circle(new Point(2, 2), 3);
+
+        Figure array[] = {t, q, c};
         System.out.println("--- Трикутник ---");
         System.out.println(t);
         System.out.println("Площа трикутника: " + t.area());
@@ -19,6 +24,12 @@ public class Main {
         System.out.println("Площа кола: " + c.area());
         System.out.println("Центроїд кола: " + c.centroid());
 
+        for (Figure f : array) {
+            System.out.println("Площа Figuru: " + f.area());
+            System.out.println("Центроїд Figuru: " + f.centroid());
+        }
+
       
     }
 }
+
