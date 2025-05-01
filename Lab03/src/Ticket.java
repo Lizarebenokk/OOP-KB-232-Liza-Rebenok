@@ -1,14 +1,14 @@
 public class Ticket {
-
     private int id;
     private String name;
     private int estimate;
-    private boolean completed = false;
+    private boolean completed;
 
     public Ticket(int id, String name, int estimate) {
         this.id = id;
         this.name = name;
         this.estimate = estimate;
+        this.completed = false;
     }
 
     public int getId() {
@@ -28,6 +28,6 @@ public class Ticket {
     }
 
     public void complete() {
-        completed = true;
+        this.completed = true;
     }
 }

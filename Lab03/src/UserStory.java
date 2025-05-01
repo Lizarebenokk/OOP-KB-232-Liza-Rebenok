@@ -1,29 +1,39 @@
-import java.util.LinkedList;
-
 public class UserStory extends Ticket {
+    private UserStory[] dependencies;
 
-    private LinkedList<UserStory> dependencies;
-
-    public UserStory(int id, String name, int estimate, LinkedList<UserStory> dependencies) {
+    public UserStory(int id, String name, int estimate, UserStory[] dependencies) {
         super(id, name, estimate);
-        this.dependencies = dependencies != null ? dependencies : new LinkedList<>();
+        this.dependencies = dependencies != null ? dependencies : new UserStory[0];
     }
 
     public UserStory(int id, String name, int estimate) {
-        super(id, name, estimate);
-        this.dependencies = new LinkedList<>();
+        this(id, name, estimate, null);
     }
 
     @Override
     public void complete() {
-        for (UserStory userStory : dependencies) {
-            if (!userStory.isCompleted()) return;
+        if (canComplete()) {
+            super.complete();
         }
-        super.complete();
     }
 
-    public LinkedList<UserStory> getDependencies() {
-        return new LinkedList<>(dependencies);
+    private boolean canComplete() {
+        if (dependencies == null || dependencies.length == 0) {
+            return true;
+        }
+
+        for (UserStory dependency : dependencies) {
+            if (dependency != null && !dependency.isCompleted()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public UserStory[] getDependencies() {
+        UserStory[] copy = new UserStory[dependencies.length];
+        System.arraycopy(dependencies, 0, copy, 0, dependencies.length);
+        return copy;
     }
 
     @Override

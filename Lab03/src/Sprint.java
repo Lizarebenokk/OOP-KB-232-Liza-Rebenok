@@ -1,45 +1,58 @@
-import java.util.LinkedList;
+import java.util.ArrayList;
 
 public class Sprint {
+    private int capacity;
+    private int ticketLimit;
+    private ArrayList<Ticket> tickets;
 
-    private LinkedList<Ticket> tickets;
-    private int maxTime;
-    private int maxTickets;
-
-    public Sprint(int maxTime, int maxTickets) {
-        this.maxTime = maxTime;
-        this.maxTickets = maxTickets;
-        this.tickets = new LinkedList<>();
+    public Sprint(int capacity, int ticketLimit) {
+        this.capacity = capacity;
+        this.ticketLimit = ticketLimit;
+        this.tickets = new ArrayList<>();
     }
 
     public boolean addUserStory(UserStory userStory) {
-        return canAddTicket(userStory) && tickets.add(userStory);
+        if (canAddTicket(userStory)) {
+            tickets.add(userStory);
+            return true;
+        }
+        return false;
     }
 
     public boolean addBug(Bug bugReport) {
-        return canAddTicket(bugReport) && tickets.add(bugReport);
+        if (canAddTicket(bugReport)) {
+            tickets.add(bugReport);
+            return true;
+        }
+        return false;
     }
 
-    private boolean canAddTicket(Ticket t) {
-        return t != null &&
-               !t.isCompleted() &&
-               t.getEstimate() + getTotalEstimate() <= maxTime &&
-               tickets.size() < maxTickets;
+    private boolean canAddTicket(Ticket ticket) {
+        if (ticket == null || ticket.isCompleted()) {
+            return false;
+        }
+        
+        if (tickets.size() >= ticketLimit) {
+            return false;
+        }
+        
+        if (getTotalEstimate() + ticket.getEstimate() > capacity) {
+            return false;
+        }
+        
+        return true;
     }
 
-    public LinkedList<Ticket> getTickets() {
-        return tickets;
+    public Ticket[] getTickets() {
+        Ticket[] result = new Ticket[tickets.size()];
+        return tickets.toArray(result);
     }
 
     public int getTotalEstimate() {
-        return tickets.stream().mapToInt(Ticket::getEstimate).sum();
-    }
-
-    public int getMaxTime() {
-        return maxTime;
-    }
-
-    public int getMaxTickets() {
-        return maxTickets;
+        int total = 0;
+        for (Ticket ticket : tickets) {
+            total += ticket.getEstimate();
+        }
+        return total;
     }
 }

@@ -1,24 +1,20 @@
 public class Bug extends Ticket {
-
     private UserStory userStory;
 
-    public Bug(int id, String name, int estimate, UserStory userStory) {
+    private Bug(int id, String name, int estimate, UserStory userStory) {
         super(id, name, estimate);
-        if (userStory == null) {
-            throw new IllegalArgumentException("UserStory cannot be null for a Bug.");
-        }
         this.userStory = userStory;
     }
 
     public static Bug createBug(int id, String name, int estimate, UserStory userStory) {
-        if (userStory == null || !userStory.isCompleted()) return null;
+        if (userStory == null || !userStory.isCompleted()) {
+            return null;
+        }
         return new Bug(id, name, estimate, userStory);
     }
 
     @Override
     public String toString() {
-        return "[Bug " + getId() + "] " +
-               (userStory != null ? userStory.getName() : "No UserStory") +
-               " -> " + getName();
+        return "[Bug " + getId() + "] " + userStory.getName() + ": " + getName();
     }
 }
